@@ -47,6 +47,7 @@ sudo ufw --force enable
 sudo sed -i 's/#\?PasswordAuthentication\s\+no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 sudo apt install libpam-google-authenticator
+google-authenticator
 #/y
 #/y
 #/y
