@@ -1,7 +1,12 @@
 #!/bin/bash
+sed -i '/# enable command-not-found if installed/a \
+if [ -f ~/.bash_aliases ]; then\n    . ~/.bash_aliases\nfi' ~/.zshrc
+
+echo -e 'function apt-updater {\n    sudo apt update &&\n    sudo apt dist-upgrade -y &&\n    sudo apt autoremove -y &&\n    sudo apt autoclean\n}\n' >> ~/.bash_aliases
+source ~/.bash_aliases
 
 # Actualizar el sistema e instalar archivos básicos
-sudo apt update && sudo apt install -y kali-linux-headless
+apt-updater && sudo apt install -y kali-linux-headless terminator
 
 # Instalar paquetes para RDP
 sudo apt-get install -y kali-desktop-xfce xorg xrdp
