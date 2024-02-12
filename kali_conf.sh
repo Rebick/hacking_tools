@@ -6,10 +6,11 @@ echo -e 'function apt-updater {\n    sudo apt update &&\n    sudo apt dist-upgra
 source ~/.bash_aliases
 
 # Actualizar el sistema e instalar archivos básicos
-apt-updater && sudo apt install -y kali-linux-headless terminator
+# Instalar ufw (firewall) y fail2ban (protección contra ataques de fuerza bruta)
+# Instalar sendmail para la funcionalidad de correo
+apt-updater && sudo apt install -y kali-linux-headless terminator kali-desktop-xfce xorg xrdp ufw fail2ban sendmail-bin sendmail libpam-google-authenticator tomcat10
 
 # Instalar paquetes para RDP
-sudo apt-get install -y kali-desktop-xfce xorg xrdp
 sudo systemctl enable xrdp --now
 
 # Cambiar la contraseña del usuario kali
@@ -21,14 +22,9 @@ sudo passwd kali
 # - Atacantes que cambian de IP
 # - Botnet
 
-# Instalar ufw (firewall) y fail2ban (protección contra ataques de fuerza bruta)
-sudo apt install -y ufw fail2ban
 
-# Instalar sendmail para la funcionalidad de correo
-sudo apt install -y sendmail-bin sendmail
-
-sudo cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.conf.bak
-sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.conf.bak
+sudo cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
 sudo sed -i '/backend = %(sshd_backend)s/{n;s/enable = false/enable = true/}' /etc/fail2ban/jail.conf
 
@@ -46,7 +42,6 @@ sudo ufw --force enable
 
 sudo sed -i 's/#\?PasswordAuthentication\s\+no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
-sudo apt install libpam-google-authenticator
 google-authenticator
 #/y
 #/y
@@ -59,8 +54,9 @@ echo "auth required pam_google_authenticator.so" | sudo tee -a /etc/pam.d/sshd >
 sudo sed -i 's/^KbdInteractiveAuthentication no/KbdInteractiveAuthentication yes/' /etc/ssh/sshd_config
 #autenticacion google rdp
 echo "auth required pam_google_authenticator.so forward_pass" > /tmp/tempfile
-sed '2 {e cat /tmp/tempfile' -i /etc/pam.d/xrdp-sesman
+echo "auth required pam_google_authenticator.so forward_pass" >>  /etc/pam.d/xrdp-sesman
+echo "auth required pam_unix.o use_first_pass" >>  /etc/pam.d/xrdp-sesman
 
 sudo systemctl restart xrdp
-sudo systemctl restart sshd
+sudo systemctl restart ssh
 exit 0
