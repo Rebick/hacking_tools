@@ -1,52 +1,14 @@
-## guacamole server
-```
-sudo apt update -y && sudo apt install tomcat10 tomcat10-admin tomcat10-common tomcat10-user
-sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libtool-bin libossp-uuid-dev libavcodec-dev libavutil-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libssl-dev libvorbis-dev libwebp-dev -y
-git clone https://github.com/apache/guacamole-server.git
-cd guacamole-server
-autoreconf -fi
-./configure --with-init-dir=/etc/init.d
-make
-sudo make install
-sudo ldconfig
-sudo systemctl enable guacd
-sudo systemctl start guacd
-```
-#guacamole client
-```
-wget https://apache.org/dyn/closer.lua/guacamole/1.4.0/binary/guacamole-1.4.0.war?action=download
-sudo mkdir /etc/guacamole
-sudo cp guacamole-1.4.0.war?action=download /etc/guacamole/guacamole-1.4.0.war
-sudo ln -s /etc/guacamole/guacamole.war /var/lib/tomcat10/webapps/guacamole.war
-sudo mkdir /etc/guacamole/{extensions,lib}
-sudo sh -c 'echo "GUACAMOLE_HOME=/etc/guacamole" >> /etc/default/tomcat10'
-sudo ufw allow 8080
-```
-
-#Hasta este punto está listo, ahora instalaremos el doble factor de autenticacion
-```
-sudo apt install mariadb-server mariadb-client
-sudo systemctl start mariadb
-mysql_secure_installation
-Enter
-n
-y
-y
-y
-y
-```
+sudo docker pull guacamole/guacamole
+docker run --name some-guacamole --link some-guacd:guacd \
+    --link some-mysql:mysql         \
+    -e MYSQL_DATABASE=guacamole_db  \
+    -e MYSQL_USER=guacamole_user    \
+    -e MYSQL_PASSWORD=goro1703! \
+    -d -p 8080:8080 guacamole/guacamole
 #Autenticarse a mariadb
 
-```
-mysql -u root -p
-CREATE DATABASE guacamole_db;
-CREATE USER 'guacamole_user'@'localhost' IDENTIFIED BY 'SuP3r$3cr3tPwDD';
-GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'localhost';
-FLUSH PRIVILEGES;
-quit;
-```
 #Extension de guacamole
-wget https://apache.org/dyn/closer.lua/guacamole/1.4.0/binary/guacamole-auth-jdbc-1.4.0.tar.gz?action=download
+https://dlcdn.apache.org/guacamole/1.5.4/binary/guacamole-auth-jdbc-1.5.4.tar.gz
 mv guacamole-auth-jdbc-1.4.0.tar.gz?action=download guacamole-auth-jdbc-1.4.0.tar.gz
 tar -xzf guacamole-auth-jdbc-1.4.0.tar.gz
 cat guacamole-auth-jdbc-1.4.0/mysql/schema/*.sql | mysql -u root -p guacamole_db
