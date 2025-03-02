@@ -1,0 +1,5 @@
+=== Resumen de Resultados ===
+Subdominios encontrados: 3
+Subdominios vivos: 6
+Archivos sensibles encontrados: 2
+Verificación CORS:

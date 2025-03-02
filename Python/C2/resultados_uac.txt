@@ -1,0 +1,6 @@
+[+] Output of 'cmd.exe /c net session && echo [Admin] || echo [Not Admin]':
+[-] Error during command execution: Command '['cmd.exe /c net session && echo [Admin] || echo [Not Admin]']' returned non-zero exit status 1.
+[+] Output of 'cmd.exe /c whoami /groups | find "Label"':
+[-] Error during command execution: Command '['cmd.exe /c whoami /groups | find "Label"']' returned non-zero exit status 1.
+[+] Output of 'cmd.exe /c net user "rebick" | find "Local Group"':
+[-] Error during command execution: Command '['cmd.exe /c net user "rebick" | find "Local Group"']' returned non-zero exit status 1.

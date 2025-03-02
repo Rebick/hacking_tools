@@ -1,0 +1,10 @@
+[+] Output of 'whoami':
+[-] Error during command execution: Command 'w h o a m i' returned non-zero exit status 1.
+[+] Output of 'hostname':
+[-] Error during command execution: Command 'h o s t n a m e' returned non-zero exit status 1.
+[+] Output of 'ipconfig':
+[-] Error during command execution: Command 'i p c o n f i g' returned non-zero exit status 1.
+[+] Output of 'powershell.exe -ExecutionPolicy Unrestricted Get-WmiObject -Class Win32_Product | Select-Object Name, Version':
+[-] Error during command execution: Command 'p o w e r s h e l l . e x e   - E x e c u t i o n P o l i c y   U n r e s t r i c t e d   G e t - W m i O b j e c t   - C l a s s   W i n 3 2 _ P r o d u c t   |   S e l e c t - O b j e c t   N a m e ,   V e r s i o n' returned non-zero exit status 255.
+[+] Output of 'net start':
+[-] Error during command execution: Command 'n e t   s t a r t' returned non-zero exit status 1.
