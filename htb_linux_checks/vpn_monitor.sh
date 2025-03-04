@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE="/home/rebick/Desktop/lab_rebick.ovpn"
+CONFIG_FILE="/home/rebick/Downloads/lab_rebick.ovpn"
 LOG_FILE="/tmp/openvpn_status.log"
 STATUS_FILE="/tmp/vpn_status.log"
 

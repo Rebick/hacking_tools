@@ -5,7 +5,7 @@ def authenticate(ip_target, user, password, domain):
     """Ejecuta CrackMapExec para verificar autenticación con dominio."""
     print(f"\033[34m[INFO] Probando autenticación con {domain}\\{user}@{ip_target}...\033[0m")
     
-    cmd = ["cme", "smb", ip_target, "-u", user, "-p", password, "-d", domain]
+    cmd = ["crackmapexec", "smb", ip_target, "-u", user, "-p", password, "-d", domain]
     result = subprocess.run(cmd, capture_output=True, text=True)
 
     if "[+]" in result.stdout:
